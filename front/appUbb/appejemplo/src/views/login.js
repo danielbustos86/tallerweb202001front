@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-
+import Registro from './componentes/registrousuario';
+import Collapse from '@material-ui/core/Collapse';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
 
     const { register, handleSubmit, errors } = useForm();
+    const [modoregistro,setModoregistro] = useState(false);
 
     const onSubmit = data => {
         console.log(data.email);
@@ -62,7 +64,12 @@ export default function SignIn() {
         .then(
           (response) => {
              console.log(response.data);
-             alert(response.data.mensaje);
+            
+              if(response.data.mensaje=='correcto'){
+
+                window.location='/menu';
+              }
+            
 
           }
          
@@ -88,6 +95,11 @@ export default function SignIn() {
     }
 
   const classes = useStyles();
+
+    const registro = () =>{
+
+      setModoregistro(true);
+    }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -147,16 +159,22 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="#" variant="body2" onClick={registro}>
+                {"Nuevo usuario"}
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
+
+      <Collapse in={modoregistro}>
+          <Registro setModoregistro={setModoregistro} titulo="TITULO DESDE EL PADRE" />
+      </Collapse>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
   );
+
+
 }

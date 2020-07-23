@@ -6,9 +6,9 @@ import SignIn from './views/login'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
+  
   <React.StrictMode>
     <App /> 
-    {/* <SignIn />  */}
   </React.StrictMode>,
   document.getElementById('root')
 );

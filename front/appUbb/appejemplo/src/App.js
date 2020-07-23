@@ -1,114 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from 'react-hook-form';
-import MaterialDatatable from "material-datatable";
-import axios from 'axios';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import SignIn from './views/login';
+import Principal from './views/principal';
+import Regus from './views/componentes/registrousuario';
 
 export default function App() {
-  const { register, handleSubmit, errors } = useForm();
-  const [item, setItem] = useState([]);
-  const [actualizar, setActualizar] = useState(false);
-  const columns = [
-    {
-     name: "Nombre",
-     field: "nombre",
-     options: {
-      filter: true,
-      sort: true,
-     }
-    },
-    {
-     name: "Apellido",
-     field: "apellido",
-     options: {
-      filter: true,
-      sort: false,
-     }
-    }
-  
-   ];
-    
-  
-   
-
-  const onSubmit = data => {
-    axios
-    .post("http://localhost:5000/api/profesor", data)
-    .then(
-      (response) => {
-        
-        setActualizar(true);
-      }
-     
-    )
-    .catch((error) => {
-      console.log(error);
-    });
-
-
-  }
-
-  useEffect(() => {
-    if(actualizar){
-      cargar();
-      setActualizar(false);
-    }
-
-  
-  },[actualizar]);
-
+  return (
+    <Router>
  
 
-
-  const cargar = async() =>{
-    const { data } = await axios.get("http://localhost:5000/api/profesor");
-
-    //const { data } = await axios.get("/api/zona/listar");
-    console.log(data);
-    setItem(data.profesor);
-    return null;
-  }
-  console.log(errors);
-  
-  return (
-<div>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" placeholder="nombre" name="nombre" ref={register} />
-      <input type="text" placeholder="apellido" name="apellido" ref={register} />
-      <input type="text" placeholder="rut" name="rut" ref={register} />
-      <input type="number" placeholder="edad" name="edad" ref={register} />
-
-      <input type="submit" />
-    </form>
-
-<MaterialDatatable
-title={"Profesores"}
-data={item}
-columns={columns}
-options={{
-  selectableRows: false,
-  print: false,
-  onlyOneRowCanBeSelected: false,
-  textLabels: {
-    body: {
-      noMatch: "Lo sentimos, no se encuentran registros",
-      toolTip: "Sort",
-    },
-    pagination: {
-      next: "Siguiente",
-      previous: "Página Anterior",
-      rowsPerPage: "Filas por página:",
-      displayRows: "de",
-    },
-  },
-  download: false,
-  pagination: true,
-  rowsPerPage: 5,
-  usePaperPlaceholder: true,
-  rowsPerPageOptions: [5, 10, 25],
-  sortColumnDirection: "desc",
-}}
-
-/>
-</div>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/menu">
+            <Principal />
+          </Route>
+          <Route path="/">
+            <SignIn />
+          </Route>
+    
+       
+        </Switch>
+    
+    </Router>
   );
+}
+
+function Home() {
+  return <h2>Home</h2>;
+}
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Users() {
+  return <h2>Users</h2>;
 }
