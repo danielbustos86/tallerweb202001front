@@ -67,6 +67,8 @@ export default function SignIn() {
             
               if(response.data.mensaje=='correcto'){
 
+                localStorage.setItem('TOKEN_APP_TALLER',response.data.token)
+
                 window.location='/menu';
               }
             
