@@ -3,18 +3,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import SignIn from './views/login';
-import Principal from './views/principal';
+import MenuPrincipal from './views/MenuPrincipal';
 import Regus from './views/componentes/registrousuario';
 import axios from 'axios';
 
 export default function App() {
   const [autorizado, setAutorizado] = useState(false);
-
+  const [remember, setRemember] = useState(false);
   useEffect(() => {
 
+   
     renderizadoCondicional();
 
 
@@ -29,7 +31,12 @@ export default function App() {
           console.log(response.data);
           if (response.status == 200) {
             setAutorizado(true)
+     
 
+            let recordar = localStorage.getItem('RECORDAR_APP_TALLER_UBB')
+            if (recordar == "remember") {
+                setRemember(true);
+            }
           }
         }
       )
@@ -38,7 +45,7 @@ export default function App() {
           if (err.response.status == 401) {
             setAutorizado(false)
             //   window.location='/login'
-       
+     
           }
           console.log(err.response.data.mensaje)
         } else if (err.request) {
@@ -49,8 +56,8 @@ export default function App() {
 
       });
 
-   
-   
+
+
 
   }
 
@@ -58,24 +65,27 @@ export default function App() {
 
   return (
 
-    
+
 
     <Router>
- 
+      {remember ? <Redirect to="/menu"/> :""}
 
-        {/* A <Switch> looks through its children <Route>s and
+
+      {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/menu">
-           {autorizado ? <Principal /> :<SignIn />}            
-          </Route>
-          <Route path="/">
-            <SignIn />
-          </Route>
-    
-       
-        </Switch>
-    
+      <Switch>
+
+
+        <Route path="/menu">
+          {autorizado ? <MenuPrincipal /> : <SignIn />}
+        </Route>
+        <Route path="/">
+          <SignIn />
+        </Route>
+
+
+      </Switch>
+
     </Router>
   );
 }

@@ -54,7 +54,13 @@ export default function SignIn() {
     const { register, handleSubmit, errors } = useForm();
     const [modoregistro,setModoregistro] = useState(false);
 
+
+  
+
+
     const onSubmit = data => {
+
+
         console.log(data.email);
         axios
         .post("http://localhost:5000/api/usuario/validar", {
@@ -68,7 +74,10 @@ export default function SignIn() {
               if(response.data.mensaje=='correcto'){
 
                 localStorage.setItem('TOKEN_APP_TALLER',response.data.token)
-
+                if (data.recordar=="remember")
+                {
+                  localStorage.setItem('RECORDAR_APP_TALLER_UBB',"remember")
+                }
                 window.location='/menu';
               }
             
@@ -142,7 +151,8 @@ export default function SignIn() {
             inputRef={register}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" color="primary" name="recordar"
+            inputRef={register} />}
             label="Remember me"
           />
           <Button
