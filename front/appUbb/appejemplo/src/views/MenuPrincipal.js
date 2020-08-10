@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Producto from './productos/componentes/productos';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
+import Clientesocket from './clientesocket';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -100,7 +101,7 @@ export default function SimpleTabs() {
                 <Producto />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+               <Clientesocket/>
       </TabPanel>
         </div>
     );
